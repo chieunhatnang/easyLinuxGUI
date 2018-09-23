@@ -67,7 +67,8 @@ if [ $wine -eq 1 ]; then
     apt-get -y install software-properties-common
     wget -nc https://dl.winehq.org/wine-builds/Release.key
     apt-key add Release.key
-    apt-add-repository https://dl.winehq.org/wine-builds/debian/
+    apt-add-repository https://dl.winehq.org/wine-builds/debian/ || true
+    apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ || true
     apt-get update
     apt-get -y install --install-recommends winehq-stable winetricks
 fi
