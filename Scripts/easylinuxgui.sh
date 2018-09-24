@@ -42,9 +42,8 @@ echo vnc:$vncpw | chpasswd
 chsh -s /bin/bash vnc
 usermod -aG sudo vnc
 apt-get update -y
-apt-get upgrade -y
 
-INSTALL_PKGS="xfce4 xfce4-goodies gnome-icon-theme sudo vnc4server tigervnc-common zip unzip file-roller gedit xfonts-base"
+INSTALL_PKGS="xfce4 xfce4-goodies gnome-icon-theme sudo vnc4server tigervnc-common zip unzip file-roller gedit xfonts-base dbus-x11"
 for i in $INSTALL_PKGS; do
   sudo apt-get install -y $i
 done
