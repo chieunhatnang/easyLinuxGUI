@@ -1,6 +1,6 @@
 # easyLinuxGUI
 # Description
-This tool provide an easy way to install GUI and VNC Server on Linux server. No command needed, very noob friendly.
+This tool provides an easy way to install GUI and VNC Server on Linux server. No command needed, very noob friendly.
 
 For one who is curious, this tool installs:
 - XFDE4.
@@ -8,7 +8,7 @@ For one who is curious, this tool installs:
 - Google Chrome, Firefox, Wine latest version (optional).
 
 # Pre-requitesite
-- This tool currently supports Debian based OS only including:
+- This tool currently supports Debian-based OS only including:
   - Debian 9
   - Ubuntu 16.04
   - Ubuntu 18.04
