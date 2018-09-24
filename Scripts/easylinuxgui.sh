@@ -33,6 +33,10 @@ else
         wine=0
     fi
 fi
+#Get OS
+. /etc/lsb-release
+OS=$DISTRIB_ID
+
 useradd vnc
 echo vnc:$vncpw | chpasswd
 chsh -s /bin/bash vnc
@@ -67,8 +71,11 @@ if [ $wine -eq 1 ]; then
     apt-get -y install software-properties-common
     wget -nc https://dl.winehq.org/wine-builds/Release.key
     apt-key add Release.key
-    apt-add-repository https://dl.winehq.org/wine-builds/debian/ || true
-    apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ || true
+    if [ "$OS" = "Ubuntu" ]; then
+        apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
+    elif [ "$OS" = "Debian" ]; then
+        apt-add-repository https://dl.winehq.org/wine-builds/debian/
+    fi
     apt-get update
     apt-get -y install --install-recommends winehq-stable winetricks
 fi
@@ -90,4 +97,13 @@ echo "[Install]" >> /lib/systemd/system/levvnc@.service
 echo "WantedBy=multi-user.target" >> /lib/systemd/system/levvnc@.service
 systemctl daemon-reload
 systemctl enable levvnc@1.service
+if [ "$OS" = "Ubuntu" ]; then
+    ufw allow 5901
+    touch /var/lib/polkit-1/localauthority/50-local.d/disable-passwords.pkla
+    echo -e "[Do anything you want]" > /var/lib/polkit-1/localauthority/50-local.d/disable-passwords.pkla
+    echo -e "Identity=unix-group:root" > /var/lib/polkit-1/localauthority/50-local.d/disable-passwords.pkla
+    echo -e "Action=*" > /var/lib/polkit-1/localauthority/50-local.d/disable-passwords.pkla
+    echo -e "ResultActive=yes" > /var/lib/polkit-1/localauthority/50-local.d/disable-passwords.pkla
+    reboot
+fi
 systemctl start levvnc@1.service
