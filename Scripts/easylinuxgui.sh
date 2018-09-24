@@ -43,7 +43,12 @@ chsh -s /bin/bash vnc
 usermod -aG sudo vnc
 apt-get update -y
 apt-get upgrade -y
-apt-get install -y xfce4 xfce4-goodies gnome-icon-theme sudo vnc4server tigervnc-common
+
+INSTALL_PKGS="xfce4 xfce4-goodies gnome-icon-theme sudo vnc4server tigervnc-common zip unzip file-roller gedit xfonts-base"
+for i in $INSTALL_PKGS; do
+  sudo apt-get install -y $i
+done
+
 mkdir -p /home/vnc/.vnc || true
 echo -e '#!/bin/bash' > /home/vnc/.vnc/xstartup
 echo -e "xrdb \$HOME/.Xresources" >> /home/vnc/.vnc/xstartup
@@ -52,9 +57,7 @@ echo -e "startxfce4 &" >> /home/vnc/.vnc/xstartup
 chmod +x /home/vnc/.vnc/xstartup
 echo -e "$vncpw\n$vncpw\nn" | vncpasswd /home/vnc/.vnc/passwd
 chown -R vnc:vnc /home/vnc
-
-#Install utilities
-apt-get install -y zip unzip file-roller gedit
+chmod 755 /home/vnc/.vnc
 
 if [ $ff -eq 1 ]; then
     apt-get install -y iceweasel
@@ -90,7 +93,7 @@ echo "User=vnc" >> /lib/systemd/system/levvnc@.service
 echo "WorkingDirectory=/home/vnc" >> /lib/systemd/system/levvnc@.service
 echo "PIDFile=/home/vnc/.vnc/%H:%i.pid" >> /lib/systemd/system/levvnc@.service
 echo "ExecStartPre=-/usr/bin/vncserver -kill :%i > /dev/null 2>&1" >> /lib/systemd/system/levvnc@.service
-echo "ExecStart=/usr/bin/vncserver -localhost no -depth 16 -geometry 1280x800 :%i" >> /lib/systemd/system/levvnc@.service
+echo "ExecStart=/usr/bin/vncserver -depth 16 -geometry 1280x800 :%i" >> /lib/systemd/system/levvnc@.service
 echo "ExecStop=/usr/bin/vncserver -kill :%i" >> /lib/systemd/system/levvnc@.service
 echo "ExecReload=/usr/bin/vncserver restart" >> /lib/systemd/system/levvnc@.service
 echo "[Install]" >> /lib/systemd/system/levvnc@.service
