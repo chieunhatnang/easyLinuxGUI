@@ -97,6 +97,9 @@ echo "ExecStop=/usr/bin/vncserver -kill :%i" >> /lib/systemd/system/levvnc@.serv
 echo "ExecReload=/usr/bin/vncserver restart" >> /lib/systemd/system/levvnc@.service
 echo "[Install]" >> /lib/systemd/system/levvnc@.service
 echo "WantedBy=multi-user.target" >> /lib/systemd/system/levvnc@.service
+
+echo "\$localhost = \"no\"" >> /etc/vnc.conf
+
 systemctl daemon-reload
 systemctl enable levvnc@1.service
 if [ "$OS" = "Ubuntu" ]; then
