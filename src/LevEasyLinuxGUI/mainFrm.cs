@@ -99,7 +99,7 @@ namespace LevEasyLinuxGUI
                 string ip = txtIP.Text.Trim();
                 string vncPassword = txtVNCPassword.Text.Trim();
 
-                string command = ip + " -P 22 " + " -l " + txtVPSUsername.Text.Trim() + " ";
+                string command = " -t " + ip + " -P 22 " + " -l " + txtVPSUsername.Text.Trim() + " ";
 
                 if (rdPass.Checked)
                 {
